@@ -1,0 +1,8 @@
+/Users/mvk/development/gaming/dungeoncrawl/target/debug/deps/bracket_algorithm_traits-cf517686be974909.d: /Users/mvk/.cargo/git/checkouts/bracket-lib-175e50b7f4d03afd/ce9124a/bracket-algorithm-traits/src/lib.rs /Users/mvk/.cargo/git/checkouts/bracket-lib-175e50b7f4d03afd/ce9124a/bracket-algorithm-traits/src/algorithm2d.rs /Users/mvk/.cargo/git/checkouts/bracket-lib-175e50b7f4d03afd/ce9124a/bracket-algorithm-traits/src/algorithm3d.rs /Users/mvk/.cargo/git/checkouts/bracket-lib-175e50b7f4d03afd/ce9124a/bracket-algorithm-traits/src/basemap.rs
+
+/Users/mvk/development/gaming/dungeoncrawl/target/debug/deps/libbracket_algorithm_traits-cf517686be974909.rmeta: /Users/mvk/.cargo/git/checkouts/bracket-lib-175e50b7f4d03afd/ce9124a/bracket-algorithm-traits/src/lib.rs /Users/mvk/.cargo/git/checkouts/bracket-lib-175e50b7f4d03afd/ce9124a/bracket-algorithm-traits/src/algorithm2d.rs /Users/mvk/.cargo/git/checkouts/bracket-lib-175e50b7f4d03afd/ce9124a/bracket-algorithm-traits/src/algorithm3d.rs /Users/mvk/.cargo/git/checkouts/bracket-lib-175e50b7f4d03afd/ce9124a/bracket-algorithm-traits/src/basemap.rs
+
+/Users/mvk/.cargo/git/checkouts/bracket-lib-175e50b7f4d03afd/ce9124a/bracket-algorithm-traits/src/lib.rs:
+/Users/mvk/.cargo/git/checkouts/bracket-lib-175e50b7f4d03afd/ce9124a/bracket-algorithm-traits/src/algorithm2d.rs:
+/Users/mvk/.cargo/git/checkouts/bracket-lib-175e50b7f4d03afd/ce9124a/bracket-algorithm-traits/src/algorithm3d.rs:
+/Users/mvk/.cargo/git/checkouts/bracket-lib-175e50b7f4d03afd/ce9124a/bracket-algorithm-traits/src/basemap.rs:

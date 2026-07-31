@@ -1,0 +1,12 @@
+/Users/mvk/development/gaming/dungeoncrawl/target/debug/deps/bracket_color-b4440e7d12bc92af.d: /Users/mvk/.cargo/git/checkouts/bracket-lib-175e50b7f4d03afd/ce9124a/bracket-color/src/lib.rs /Users/mvk/.cargo/git/checkouts/bracket-lib-175e50b7f4d03afd/ce9124a/bracket-color/src/color_pair.rs /Users/mvk/.cargo/git/checkouts/bracket-lib-175e50b7f4d03afd/ce9124a/bracket-color/src/hsv.rs /Users/mvk/.cargo/git/checkouts/bracket-lib-175e50b7f4d03afd/ce9124a/bracket-color/src/lerpit.rs /Users/mvk/.cargo/git/checkouts/bracket-lib-175e50b7f4d03afd/ce9124a/bracket-color/src/named.rs /Users/mvk/.cargo/git/checkouts/bracket-lib-175e50b7f4d03afd/ce9124a/bracket-color/src/palette.rs /Users/mvk/.cargo/git/checkouts/bracket-lib-175e50b7f4d03afd/ce9124a/bracket-color/src/rgb.rs /Users/mvk/.cargo/git/checkouts/bracket-lib-175e50b7f4d03afd/ce9124a/bracket-color/src/rgba.rs
+
+/Users/mvk/development/gaming/dungeoncrawl/target/debug/deps/libbracket_color-b4440e7d12bc92af.rmeta: /Users/mvk/.cargo/git/checkouts/bracket-lib-175e50b7f4d03afd/ce9124a/bracket-color/src/lib.rs /Users/mvk/.cargo/git/checkouts/bracket-lib-175e50b7f4d03afd/ce9124a/bracket-color/src/color_pair.rs /Users/mvk/.cargo/git/checkouts/bracket-lib-175e50b7f4d03afd/ce9124a/bracket-color/src/hsv.rs /Users/mvk/.cargo/git/checkouts/bracket-lib-175e50b7f4d03afd/ce9124a/bracket-color/src/lerpit.rs /Users/mvk/.cargo/git/checkouts/bracket-lib-175e50b7f4d03afd/ce9124a/bracket-color/src/named.rs /Users/mvk/.cargo/git/checkouts/bracket-lib-175e50b7f4d03afd/ce9124a/bracket-color/src/palette.rs /Users/mvk/.cargo/git/checkouts/bracket-lib-175e50b7f4d03afd/ce9124a/bracket-color/src/rgb.rs /Users/mvk/.cargo/git/checkouts/bracket-lib-175e50b7f4d03afd/ce9124a/bracket-color/src/rgba.rs
+
+/Users/mvk/.cargo/git/checkouts/bracket-lib-175e50b7f4d03afd/ce9124a/bracket-color/src/lib.rs:
+/Users/mvk/.cargo/git/checkouts/bracket-lib-175e50b7f4d03afd/ce9124a/bracket-color/src/color_pair.rs:
+/Users/mvk/.cargo/git/checkouts/bracket-lib-175e50b7f4d03afd/ce9124a/bracket-color/src/hsv.rs:
+/Users/mvk/.cargo/git/checkouts/bracket-lib-175e50b7f4d03afd/ce9124a/bracket-color/src/lerpit.rs:
+/Users/mvk/.cargo/git/checkouts/bracket-lib-175e50b7f4d03afd/ce9124a/bracket-color/src/named.rs:
+/Users/mvk/.cargo/git/checkouts/bracket-lib-175e50b7f4d03afd/ce9124a/bracket-color/src/palette.rs:
+/Users/mvk/.cargo/git/checkouts/bracket-lib-175e50b7f4d03afd/ce9124a/bracket-color/src/rgb.rs:
+/Users/mvk/.cargo/git/checkouts/bracket-lib-175e50b7f4d03afd/ce9124a/bracket-color/src/rgba.rs:
