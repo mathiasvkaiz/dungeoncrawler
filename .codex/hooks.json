@@ -1,0 +1,19 @@
+{
+  "description": "Load the current branch and hands-on learning checkpoint without changing files.",
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "^(startup|resume|clear|compact)$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/usr/bin/python3 \"$(git rev-parse --show-toplevel)/.codex/hooks/session_start.py\"",
+            "timeout": 10,
+            "statusMessage": "Loading learning checkpoint",
+            "additionalContextLimit": 20000
+          }
+        ]
+      }
+    ]
+  }
+}
