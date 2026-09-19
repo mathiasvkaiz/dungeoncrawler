@@ -4,8 +4,12 @@ Welcome to the project! This is a top-down RPG built using open-source and indie
 
 ## World-map prototype
 
+**Learning / fresh-session handoff:** read [doc/LEARNING_PLAN.md](doc/LEARNING_PLAN.md).
+The current `planet` branch contains a small voxel visual showcase; lessons have
+not started yet.
+
 Run `cargo run` to open the campaign globe. The planet uses a procedurally
-rendered pixel sphere: continents, coastlines and mission flags wrap around its
+rendered voxel globe: raised continents, stepped coastlines and mission flags wrap around its
 surface while the helicopter remains in view. No downloaded assets are required.
 
 - WASD / arrow keys: fly around the globe; Shift: boost.

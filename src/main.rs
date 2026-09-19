@@ -1,3 +1,4 @@
+mod voxel;
 mod world_map;
 
 use bevy::prelude::*;

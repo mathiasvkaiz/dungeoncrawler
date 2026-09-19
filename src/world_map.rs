@@ -1,4 +1,4 @@
-//! A pixel-rendered sphere. Terrain and flags share the same longitude/latitude
+//! A voxel planet rendered into a pixel image. Terrain and flags share longitude/latitude
 //! transform, so they wrap around the globe and disappear over its horizon.
 use bevy::{
     asset::RenderAssetUsages,
@@ -108,8 +108,7 @@ impl Default for Flight {
 #[derive(Resource)]
 struct Planet {
     image: Handle<Image>,
-    atlas: Vec<[u8; 3]>,
-    normals: Vec<Option<Vec3>>,
+    volume: crate::voxel::Volume,
 }
 #[derive(Component)]
 struct Flag(usize);
@@ -173,7 +172,7 @@ fn setup(mut commands: Commands, mut images: ResMut<Assets<Image>>) {
     );
     label(
         &mut commands,
-        "AIR COMMAND  /  CAMPAIGN NAVIGATION",
+        "AIR COMMAND  /  VOXEL WORLD SHOWCASE",
         Vec3::new(-570.0, 305.0, 20.0),
         14.0,
         Color::srgb(0.48, 0.66, 0.71),
@@ -238,19 +237,30 @@ fn setup(mut commands: Commands, mut images: ResMut<Assets<Image>>) {
         },
         Transform::from_translation(CENTER.extend(0.0)),
     ));
-    let normals = (0..SIZE * SIZE)
-        .map(|i| {
-            let x = ((i % SIZE) as f32 + 0.5 - SIZE as f32 / 2.0) / (SIZE as f32 / 2.14);
-            let y = -((i / SIZE) as f32 + 0.5 - SIZE as f32 / 2.0) / (SIZE as f32 / 2.14);
-            let r = x * x + y * y;
-            (r <= 1.0).then(|| Vec3::new(x, y, (1.0 - r).sqrt()))
-        })
-        .collect();
-    commands.insert_resource(Planet {
-        image,
-        atlas: make_atlas(),
-        normals,
+    let atlas = make_atlas();
+    let volume = crate::voxel::Volume::new(52, |p| {
+        let n = p.normalize();
+        let u = ((n.x.atan2(n.z) / TAU + 0.5) * ATLAS_W as f32) as usize % ATLAS_W;
+        let v = ((0.5 - n.y.asin() / PI) * ATLAS_H as f32) as usize;
+        let color = atlas[v.min(ATLAS_H - 1) * ATLAS_W + u];
+        let land = color[0] > 45;
+        let mountain = land && (n.x * 19.0 + n.z * 13.0).sin() * (n.y * 23.0).cos() > 0.7;
+        let radius = if mountain {
+            24.0
+        } else if land {
+            23.0
+        } else {
+            22.0
+        };
+        if p.length() > radius {
+            [0, 0, 0]
+        } else if mountain && p.length() > 23.0 {
+            [159, 166, 138]
+        } else {
+            color
+        }
     });
+    commands.insert_resource(Planet { image, volume });
     for i in 0..MISSIONS.len() {
         commands
             .spawn((Transform::default(), Visibility::default(), Flag(i)))
@@ -273,7 +283,25 @@ fn setup(mut commands: Commands, mut images: ResMut<Assets<Image>>) {
                 ));
             });
     }
-    // Pixel-built silhouette with tail, landing skids, cockpit and animated rotor.
+    let mut heli_image = Image::new_fill(
+        Extent3d {
+            width: 96,
+            height: 96,
+            depth_or_array_layers: 1,
+        },
+        TextureDimension::D2,
+        &[0, 0, 0, 0],
+        TextureFormat::Rgba8UnormSrgb,
+        RenderAssetUsages::default(),
+    );
+    crate::voxel::helicopter().render(
+        heli_image.data.as_mut().unwrap(),
+        96,
+        22.0,
+        Quat::from_rotation_y(-0.45) * Quat::from_rotation_x(-0.32),
+    );
+    let heli_texture = images.add(heli_image);
+    // A pre-rendered voxel body with a lightweight animated rotor.
     commands
         .spawn((
             Transform::from_xyz(CENTER.x, CENTER.y + 48.0, 12.0),
@@ -281,27 +309,14 @@ fn setup(mut commands: Commands, mut images: ResMut<Assets<Image>>) {
             Chopper,
         ))
         .with_children(|p| {
-            for (x, y, w, h, color) in [
-                (-40.0, 4.0, 48.0, 10.0, INK),
-                (-59.0, 14.0, 9.0, 29.0, INK),
-                (0.0, 0.0, 65.0, 32.0, INK),
-                (4.0, 1.0, 57.0, 25.0, Color::srgb(0.37, 0.43, 0.24)),
-                (15.0, 5.0, 24.0, 15.0, Color::srgb(0.36, 0.76, 0.80)),
-                (11.0, 6.0, 4.0, 18.0, INK),
-                (-9.0, -21.0, 5.0, 18.0, INK),
-                (20.0, -21.0, 5.0, 18.0, INK),
-                (3.0, -29.0, 66.0, 5.0, Color::srgb(0.62, 0.67, 0.59)),
-                (0.0, 24.0, 6.0, 15.0, INK),
-                (-14.0, 1.0, 12.0, 5.0, GOLD),
-            ] {
-                p.spawn((
-                    Sprite::from_color(color, Vec2::new(w, h)),
-                    Transform::from_xyz(x, y, 0.0),
-                ));
-            }
+            p.spawn(Sprite {
+                image: heli_texture,
+                custom_size: Some(Vec2::splat(160.0)),
+                ..default()
+            });
             p.spawn((
                 Sprite::from_color(Color::srgb(0.74, 0.80, 0.73), Vec2::new(112.0, 4.0)),
-                Transform::from_xyz(0.0, 32.0, 1.0),
+                Transform::from_xyz(0.0, 26.0, 1.0),
                 Rotor,
             ));
         });
@@ -391,27 +406,7 @@ fn paint_planet(f: Res<Flight>, planet: Res<Planet>, mut images: ResMut<Assets<I
     let Some(data) = image.data.as_mut() else {
         return;
     };
-    let rotation = orientation(&f);
-    let light = Vec3::new(-0.5, 0.65, 0.8).normalize();
-    for (i, pixel) in data.chunks_exact_mut(4).enumerate() {
-        if let Some(normal) = planet.normals[i] {
-            let world = rotation * normal;
-            let u = ((world.x.atan2(world.z) / TAU + 0.5) * ATLAS_W as f32) as usize % ATLAS_W;
-            let v = ((0.5 - world.y.clamp(-1.0, 1.0).asin() / PI) * ATLAS_H as f32) as usize;
-            let base = planet.atlas[v.min(ATLAS_H - 1) * ATLAS_W + u];
-            let shade = (0.35 + 0.65 * normal.dot(light).max(0.0)) * 0.95;
-            let rim = (1.0 - normal.z).powi(4) * 0.45;
-            for c in 0..3 {
-                pixel[c] = (base[c] as f32 * shade + [25.0, 90.0, 120.0][c] * rim).min(255.0) as u8;
-            }
-            pixel[3] = 255;
-        } else {
-            let x = ((i % SIZE) as f32 + 0.5 - SIZE as f32 / 2.0) / (SIZE as f32 / 2.14);
-            let y = ((i / SIZE) as f32 + 0.5 - SIZE as f32 / 2.0) / (SIZE as f32 / 2.14);
-            let glow = ((1.06 - (x * x + y * y).sqrt()) / 0.06).clamp(0.0, 1.0);
-            pixel.copy_from_slice(&[47, 144, 183, (glow * glow * 125.0) as u8]);
-        }
-    }
+    planet.volume.render(data, SIZE, 24.8, orientation(&f));
 }
 
 // Optional visual check: capture both hemispheres and a briefing, then exit.
