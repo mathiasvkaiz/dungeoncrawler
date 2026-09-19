@@ -5,6 +5,8 @@ Welcome to the project! This is a top-down RPG built using open-source and indie
 ## World-map prototype
 
 **Learning / fresh-session handoff:** read [doc/LEARNING_PLAN.md](doc/LEARNING_PLAN.md).
+Current checkpoint: [doc/PROGRESS.md](doc/PROGRESS.md). Repository tutoring rules
+are in [AGENTS.md](AGENTS.md); lessons follow [this template](doc/lessons/TEMPLATE.md).
 The current `planet` branch contains a small voxel visual showcase; lessons have
 not started yet.
 
