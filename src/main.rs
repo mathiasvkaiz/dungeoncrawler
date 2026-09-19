@@ -11,7 +11,7 @@ fn main() {
                 .set(ImagePlugin::default_nearest())
                 .set(WindowPlugin {
                     primary_window: Some(Window {
-                        title: "Dungeon Crawl — World Operations".into(),
+                        title: "The Game".into(),
                         resolution: (1280, 800).into(),
                         ..default()
                     }),

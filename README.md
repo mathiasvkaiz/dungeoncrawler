@@ -1,4 +1,4 @@
-# Dungeon Crawler
+# The Game
 
 Welcome to the project! This is a top-down RPG built using open-source and indie game assets.
 
