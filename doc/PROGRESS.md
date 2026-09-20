@@ -58,11 +58,14 @@ then supplied the experiment log: only surface changed to [60,160,70,255].
 This demonstrates the palette's effect on displayed color values; voxel IDs and
 square rendering are independent of the palette. No assistant GUI validation.
 
-Final source retains green SOIL [60,160,70,255]. Preserve user work at close;
-restoration is the only pending exercise step. All nine tests pass on this version.
-Next action on resume: user restores SOIL to [140,95,55,255] in material.rs and
-reruns the app to confirm the baseline. Then finish this checkpoint before preparing
-another small increment toward CPU rendering. No lesson 06 prepared.
+Resume check: HEAD `c2fb335` (`feat: reverted experiment checkpoint`), clean
+learn/bevy-ecs worktree at start. User restored the RGB values but accidentally
+changed `Some` to `ome` at material.rs:12. Current example fails compilation
+(E0425: cannot find function `ome`); no tests executed on this revision.
+
+Next action: user changes the line to `SOIL => Some([140, 95, 55, 255]),`, saves,
+and runs the example tests/app. Finish lesson 05 restoration before advancing.
+No lesson 06 prepared. Assistant updated documentation only; no source edits.
 
 Lesson 05 close: user requested closing after reporting the experiment.
 Authorized scope: main.rs, planet.rs, material.rs, lesson 05, and this checkpoint.
@@ -137,6 +140,15 @@ The following observations and delivery notes concern completed lesson 03:
   the pure grid and single-resource ownership stayed the same.
 
 ## Checks and evidence
+
+Lesson 05 resume (2026-09-20):
+
+- Inspected c2fb335 and actual material.rs: RGB restoration committed with `ome`
+  typo. Worktree initially clean; Cargo remains Bevy 0.19.0 / edition 2024.
+- `cargo test --offline --locked --example learning` failed compilation with
+  E0425 at material.rs:12. Previous nine passing tests apply to earlier versions.
+- Exact correction supplied to learner; no exercise source edits or advancement.
+
 
 Lesson 05 close (2026-09-20):
 

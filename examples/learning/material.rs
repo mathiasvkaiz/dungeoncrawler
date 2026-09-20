@@ -9,7 +9,7 @@ pub fn rgba(material: u8) -> Option<[u8; 4]> {
     match material {
         AIR => Some([0, 0, 0, 0]),
         ROCK => Some([110, 115, 125, 255]),
-        SOIL => Some([60, 160, 70, 255]),
+        SOIL => Some([140, 95, 55, 255]),
         _ => None,
     }
 }
