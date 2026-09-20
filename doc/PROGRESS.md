@@ -6,9 +6,9 @@ for shared rules and workflow skill routing.
 ## Verified repository context
 
 - Branch: `learn/bevy-ecs`, tracking `origin/learn/bevy-ecs`.
-- Lesson 04 preparation baseline: `f84cca9` — `docs: clarify lesson verification timeline`.
+- Lesson 05 preparation baseline: `be2ef69` — `feat: complete sphere materials learning lesson`.
   Clean worktree at start; HEAD equals the local origin/learn/bevy-ecs ref.
-  Lesson 03 was committed in `2540540`. No live remote fetch performed;
+  Lesson 04 delivery commit is present locally. No live remote fetch performed;
   matching tracking refs are local evidence, not a fresh remote verification.
   Earlier pre-close HEADs below are historical.
 - Cargo.toml/Cargo.lock: Bevy 0.19.0; Rust edition 2024; dynamic linking.
@@ -17,8 +17,9 @@ for shared rules and workflow skill routing.
   `voxel.rs`; `scene.rs` remains unchanged from lesson 01. Assistant edits are
   documentation only; dependencies remain unchanged.
 - User implemented lesson 04 in planet.rs; executable lines match the lesson.
-  Radius 3.0 and thickness 1.0 are restored. Other exercise files and dependencies
-  remain unchanged from HEAD. Assistant review edits documentation only.
+  Radius 3.0 and thickness 1.0 are restored. Lesson 05 now adds material.rs and updates main.rs and planet.rs.
+  Scene, voxel storage, and dependencies remain unchanged from HEAD.
+  Assistant review edits documentation only.
 
 ## Active checkpoint and next action
 
@@ -48,16 +49,31 @@ with no correctness findings; all eight actual-exercise tests pass. Thickness
 experiment reported and discussed; radius 3.0 and thickness 1.0 restored in source.
 
 User confirmed the restored expected startup output and continued square rotation
-at close. Lesson 04 is complete for this increment; no active unfinished lesson
-or pending exercise. No assistant GUI validation.
+at close. Lesson 04 is complete for this increment. No assistant GUI validation.
 
-Next action on Continue learning: prepare one small A2 lesson introducing a
-material palette that maps the existing IDs to display colors, building toward
-the CPU renderer. No lesson 05 prepared; defer full geography and rendering.
+Active: [Lesson 05 — Map material IDs to colors](lessons/05-material-palette.md),
+implemented and reviewed; session saved with experiment color still applied.
+User supplied the expected original palette log and confirmed continued rotation,
+then supplied the experiment log: only surface changed to [60,160,70,255].
+This demonstrates the palette's effect on displayed color values; voxel IDs and
+square rendering are independent of the palette. No assistant GUI validation.
 
-Close session authorized committing the three session files and pushing
+Final source retains green SOIL [60,160,70,255]. Preserve user work at close;
+restoration is the only pending exercise step. All nine tests pass on this version.
+Next action on resume: user restores SOIL to [140,95,55,255] in material.rs and
+reruns the app to confirm the baseline. Then finish this checkpoint before preparing
+another small increment toward CPU rendering. No lesson 06 prepared.
+
+Lesson 05 close: user requested closing after reporting the experiment.
+Authorized scope: main.rs, planet.rs, material.rs, lesson 05, and this checkpoint.
+Pre-close HEAD: be2ef69. Destination: origin, learn/bevy-ecs
+(https://github.com/mathiasvkaiz/the-game.git). Commit/push outcome will be verified
+by Git after delivery; this entry does not claim a push has already succeeded.
+
+Lesson 04 Close session authorized committing three session files and pushing
 learn/bevy-ecs to origin (https://github.com/mathiasvkaiz/the-game.git).
-Pre-close HEAD: f84cca9. Delivery result is to be verified after committing.
+Pre-close HEAD: f84cca9. At lesson 05 start, delivery commit be2ef69 is present
+and matches the local origin tracking ref; no live remote verification performed.
 
 The following observations and delivery notes concern completed lesson 03:
 
@@ -121,6 +137,53 @@ The following observations and delivery notes concern completed lesson 03:
   the pure grid and single-resource ownership stayed the same.
 
 ## Checks and evidence
+
+Lesson 05 close (2026-09-20):
+
+- User reported original center=[110,115,125,255], surface=[140,95,55,255],
+  air=[0,0,0,0], all wrapped in Some, and continued rotation. Experiment log
+  changed only surface to [60,160,70,255]. Source confirms that experiment remains.
+- Final source differs from reviewed code only in SOIL's RGB palette entry.
+  Ran `cargo test --offline --locked --example learning` again because that code
+  changed: all nine tests passed. No assistant GUI run; app observations are user evidence.
+- No staged changes or existing unpushed commits at close start. Reviewed five-file
+  session scope; dependencies, showcase, scene, and storage remain unchanged.
+  No assistant source edits. Save partial checkpoint with restoration pending.
+
+
+Lesson 05 user implementation review (2026-09-20):
+
+- Branch learn/bevy-ecs, HEAD be2ef69. No staged changes. Worktree scope:
+  main.rs, planet.rs, new material.rs, lesson 05, and this checkpoint.
+  Bevy 0.19.0, edition 2024, Rust/Cargo 1.97.0 reconfirmed.
+- Reviewed shared IDs, palette cases/alpha, unknown-ID handling, module wiring,
+  Option chaining, unchanged resource ownership and Startup order, and tests.
+  Executable changes match the lesson. No correctness findings within lesson scope.
+  Radius 3.0, thickness 1.0, and original soil RGBA [140,95,55,255] are present.
+- `cargo test --offline --locked --example learning` on the actual exercise passed
+  all nine tests. `git diff --check` passed; new material.rs has no trailing whitespace.
+- No assistant GUI run or startup-log observation. User experiment and app
+  observations have not yet been reported. No source/dependency edits, commit,
+  push, or advancement. Prior cosmetic generator comment typo remains unchanged.
+
+
+Lesson 05 preparation (2026-09-20):
+
+- Read plan, checkpoint, completed lesson 04, template, and actual exercise files.
+  Verified clean learn/bevy-ecs at be2ef69, matching local tracking ref; Bevy 0.19.0,
+  edition 2024, Rust/Cargo 1.97.0. Reconciled historical pre-close checkpoint prose.
+- Applied exact lesson blocks to a temporary exercise copy in
+  /private/tmp/lesson05-3pskxtvx with copied manifest/lockfile and shared target cache.
+  Offline locked Cargo test for example learning compiled and passed nine tests.
+  New test covers generator/palette compatibility, alpha policy, invalid coordinate,
+  and unknown ID; existing storage, geometry, and Startup tests also passed.
+- Consulted installed Bevy 0.19.0 app/schedule sources; no new Bevy mechanism.
+  Palette is a pure function, with no added resource or system. Runtime palette
+  configuration is the condition for reconsidering that choice.
+- Documentation-only preparation: no learner source/dependency edits, actual
+  lesson 05 review, startup-log observation, GUI run, or learner experiment yet.
+  Only lesson 05 and this checkpoint changed; no commits or pushes authorized.
+
 
 Lesson 04 user implementation review (2026-09-20):
 

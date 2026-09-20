@@ -1,10 +1,7 @@
 use bevy::prelude::*;
 
+use crate::material::{AIR, ROCK, SOIL, rgba};
 use crate::voxel::VoxelGrid;
-
-const AIR: u8 = 0;
-const ROCK: u8 = 1;
-const SOIL: u8 = 2;
 
 pub struct PlanetPlugin;
 
@@ -68,20 +65,36 @@ fn solid_sphere(size: [usize; 3], radius: f32) -> VoxelGrid {
 }
 
 /// Bevy runs this once after generation and its queued insertion have completed.
-/// Bevy supplies shared access to the resource declared by the parameter.
+/// Bevy supplies shared resource access; ordinary Rust calls resolve the colors.
 fn report_planet(planet: Res<PlanetVoxels>) {
     info!(
-        "Layered sphere: center={:?}, layer={:?}, surface={:?}, outside={:?} (air={AIR})",
-        planet.grid.get([4, 4, 4]),
-        planet.grid.get([6, 4, 4]),
-        planet.grid.get([7, 4, 4]),
-        planet.grid.get([8, 4, 4]),
+        "Palette: center={:?}, surface={:?}, air={:?}",
+        planet.grid.get([4, 4, 4]).and_then(rgba),
+        planet.grid.get([7, 4, 4]).and_then(rgba),
+        planet.grid.get([8, 4, 4]).and_then(rgba),
     );
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn generated_materials_have_valid_palette_entries() {
+        let grid = solid_sphere([9, 9, 9], 3.0);
+        for z in 0..9 {
+            for y in 0..9 {
+                for x in 0..9 {
+                    let id = grid.get([x, y, z]).expect("in-bounds cell");
+                    let color = rgba(id).expect("generated material has a color");
+                    assert_eq!(color[3], if id == AIR { 0 } else { 255 });
+                }
+            }
+        }
+        assert_eq!(grid.get([8, 4, 4]).and_then(rgba), Some([0, 0, 0, 0]));
+        assert_eq!(grid.get([9, 4, 4]).and_then(rgba), None);
+        assert_eq!(rgba(255), None);
+    }
 
     /// Cargo checks a hand-countable sphere: center plus six axial neighbors.
     #[test]

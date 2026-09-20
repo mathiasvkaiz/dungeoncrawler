@@ -1,3 +1,4 @@
+mod material;
 mod planet;
 mod scene;
 mod voxel;
