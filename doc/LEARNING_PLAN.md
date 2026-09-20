@@ -31,19 +31,23 @@ and waypoints are demonstration features, not mandatory future gameplay.
 2. Discuss the engineering decision and relevant Bevy/ECS mechanisms.
 3. User applies complete copyable code with explicit paths and replacements.
 4. Run meaningful checks and make a small experiment or prediction.
-5. Review together, record progress and optionally make a user-owned checkpoint commit.
+5. Review together and record progress. On "Close session", use the repository
+   skill to save the handoff, commit session changes and push the current branch.
 
 Default: the tutor edits documentation, not exercise source, unless explicitly
 asked to implement or fix code. Prepare lessons just in time rather than generating
 a whole course. Keep each increment runnable, reviewable and economical in tokens.
 No numerical token budget is set. Stop at learning checkpoints, not after silently
-implementing several stages ahead.
+implementing several stages ahead. The workflow skills and their request phrases
+are listed in root `AGENTS.md`; ordinary questions fit between them. Closing can
+save an incomplete lesson, which the next session resumes instead of advancing.
 
-Keep `planet` as the reference. A separate learning branch is recommended, but
-its creation/name and the exercise location are not yet decided. Preserve existing
-work. Carry AGENTS.md and these documents onto the learning branch so instructions
-remain available there. No branch changes or source replacement are authorized
-merely by reading this plan.
+Keep the existing showcase in `src/` as the reference. The learning branch is
+`learn/bevy-ecs`. The user chose `examples/learning/main.rs` as the exercise entry
+point, with modules alongside it. The assistant prepares learning documentation,
+explains concepts and reviews work; the user creates and edits the exercise code.
+Preserve existing work and keep AGENTS.md and these documents available. No branch
+changes or source replacement are authorized merely by reading this plan.
 
 ## Part A — Reconstruct the showcase
 

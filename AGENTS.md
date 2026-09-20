@@ -8,7 +8,9 @@
    Reconcile them with the checkpoint before proposing edits. Preserve user work;
    Git state is evidence of implementation, not proof the user completed a lesson.
 3. Briefly state the current checkpoint and the next small action. Continue from
-   it without restarting the curriculum or requesting preferences already recorded.
+   it when the user asks to resume learning, without restarting the curriculum or
+   requesting preferences already recorded. Hook loading alone does not start a
+   lesson. For a freestyle question, answer that question in the current context.
 
 ## Teaching contract
 
@@ -26,9 +28,9 @@
   fragments. State paths, prerequisites and verification status.
 - Let the user implement, experiment and ask questions before advancing. Do not
   generate the whole course or complete subsequent lessons unprompted.
-- Keep the existing showcase as reference. A learning branch is recommended but
-  not yet created; do not switch branches or overwrite the showcase without the
-  user's direction. Keep these docs available on any eventual learning branch.
+- Keep the existing showcase in `src/` as reference. The learning branch is
+  `learn/bevy-ecs`; exercises use `examples/learning/main.rs` and modules alongside
+  it. Do not switch branches or overwrite the showcase without the user's direction.
 - The latest explicit user request can change this workflow; record lasting changes.
 
 ## Engineering expectations
@@ -44,7 +46,27 @@
 - Validate copyable lesson code in isolation when practical; do not overwrite the
   learner's files to test a lesson. If untested, state that rather than implying it ran.
 - Respect the user's preference for small, economical increments; no full engine,
-  speculative infrastructure, mass course generation or autonomous commits.
+  speculative infrastructure, mass course generation or unsolicited commits.
+
+## Learning workflow skills
+
+Repository skills live in `.agents/skills/`. For these requests, read and follow
+the matching skill (paths relative to the repository root):
+
+- "Continue learning" / `$continue-learning`:
+  `.agents/skills/continue-learning/SKILL.md`.
+- "Review my work" / `$review-learning`:
+  `.agents/skills/review-learning/SKILL.md`.
+- "Close session" / `$close-session`:
+  `.agents/skills/close-session/SKILL.md`.
+
+These are shortcuts, not a rigid sequence or persistent mode. Freestyle questions
+remain normal tutoring and do not automatically advance or complete a lesson.
+The user owns hands-on implementation. Continue/review do not authorize commits
+or pushes. An explicit request to close the session authorizes committing the
+relevant session code/docs and pushing the current branch, subject to the skill's
+scope checks and environment permissions. Creating or discussing a skill is not
+invoking it. "Wrap up" alone remains a documentation-only handoff.
 
 ## End-of-session handoff
 
@@ -54,3 +76,6 @@ questions, next concrete action and any pending user exercise. Distinguish lesso
 prepared, user implementation, verification and discussion. Never mark learning
 complete merely because code was generated or tests passed. Keep the master plan
 for durable direction, and progress for current state.
+Honor requests such as "do not edit files" by keeping the handoff in the response
+until documentation updates are authorized. Checkpoint maintenance alone never
+authorizes a commit or push.

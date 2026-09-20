@@ -40,6 +40,8 @@ solution; avoid giving away the exercise answer immediately.
 - [ ] Result verified with evidence.
 - [ ] Experiment/questions discussed with user.
 
-Update `doc/PROGRESS.md` with exact remaining work and next action. Suggest a small
-commit once reviewed; do not commit automatically. Record any enduring design
-decision briefly here with its rationale and revisit condition.
+Update `doc/PROGRESS.md` with exact remaining work and next action. The user can
+request "Review my work" for review and "Close session" to save the handoff,
+commit session changes and push. Do not invoke closing merely because checks pass.
+Record any enduring design decision briefly here with its rationale and revisit
+condition.
