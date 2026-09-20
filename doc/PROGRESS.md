@@ -1,68 +1,81 @@
 # Current learning checkpoint
 
-Updated: 2026-09-20. Mutable handoff; see LEARNING_PLAN.md for the curriculum
-and root AGENTS.md for shared rules and workflow skill routing.
+Updated: 2026-09-20. See LEARNING_PLAN.md for the curriculum and root AGENTS.md
+for shared rules and workflow skill routing.
 
 ## Verified repository context
 
-- Branch at inspection: `learn/bevy-ecs`, tracking `origin/learn/bevy-ecs`.
-- HEAD at inspection, before any close-session commit: `27d80f1` —
-  `chore: added session start hook`. Reinspect Git on resume.
-- Showcase reference commit: `a5b2dbb` — `feat: voxel planet/helicopter`.
+- Branch: `learn/bevy-ecs`, tracking `origin/learn/bevy-ecs`.
+- Pre-close HEAD: `c730060` — `chore: added skills`. Reinspect Git on resume.
+- Push destination: `origin`, https://github.com/mathiasvkaiz/the-game.git,
+  branch `learn/bevy-ecs`. Delivery outcome must be verified after this handoff.
 - Cargo.toml/Cargo.lock: Bevy 0.19.0; Rust edition 2024; dynamic linking.
-- Showcase in `src/` is implemented, not built hands-on by the user.
-- Exercise location chosen by user: `examples/learning/main.rs`, modules alongside.
-- Current session changes: learning workflow skills and documentation; uncommitted.
-  No exercise source or dependencies edited, and no commit/push performed.
+- Showcase in `src/` remains reference code, not built hands-on by the user.
+- User implemented `examples/learning/main.rs` and `scene.rs`. Assistant edited
+  lesson/workflow documentation only; no exercise source or dependencies changed.
+- Closing scope: these two exercise files, lesson 01, lesson template, AGENTS.md,
+  LEARNING_PLAN.md, continue-learning skill and this checkpoint.
 
-## Active lesson and next action
+## Completed checkpoint and next action
 
-None prepared yet. Next: `doc/lessons/01-app-and-plugins.md` (planned, not present).
-No guided lesson has been implemented or completed by the user.
+[Lesson 01 — An app and a scene plugin](lessons/01-app-and-plugins.md) is complete
+for this increment: user implemented the example, assistant reviewed it without
+findings, compilation passed, the Spin-removal experiment was discussed, and the
+user confirmed the square rotates again after restoring Spin.
 
-On **"Continue learning"**, prepare lesson 01 using `doc/lessons/TEMPLATE.md`:
-a modular Bevy app with camera and visible scene, introducing plugins,
-startup/update schedules and component queries. Target the chosen exercise
-location. Provide copyable code; the user creates and edits exercise files.
+Next action on **Continue learning**: prepare only lesson 02, the first small A2
+step introducing voxel data layout/indexing and its ownership boundary. Build on
+the existing scene example; do not jump to a whole planet generator or renderer.
+Lesson 02 has not been prepared or implemented.
 
-- Pending user exercise: none assigned yet.
-- Pending questions: none needed before preparing lesson 01.
+- Pending user exercise: none from lesson 01.
+- Unresolved questions: none raised at close; earlier concepts can be revisited.
+- No automatic advancement or new lesson preparation during closing.
 
-## Latest discussion and decisions
+## Teaching decisions and discussion
 
-- Bevy/ECS first; Rust alongside it. Reconstruct the showcase before GPU/production
-  improvements. One small lesson at a time; preserve the existing showcase.
-- Assistant teaches, prepares docs, reviews and records progress. User performs
-  hands-on implementation. Source/dependency edits need an explicit new request.
-- Three repository skills implement continue, review and close. Freestyle questions
-  fit between them; no rigid mode or automatic lesson advancement.
-- **"Close session"** authorizes saving the handoff, committing relevant session
-  code/docs and pushing the current branch. Partial work is saved as partial.
-  **"Wrap up"** alone remains documentation-only. No automatic session renaming.
-- Skill creation is not invocation; this session has not been closed.
+- Code first: brief outcome/prerequisites, complete commented code, run/check,
+  then broader concepts and a small experiment. User performs source edits.
+- Function doc comments explain purpose, caller and timing; inline comments
+  explain non-obvious details. Avoid repeating these in the concepts section.
+- Explain Bevy control flow explicitly: registration versus execution, who calls
+  hooks/systems, when/how often, and where parameters come from. Include a short
+  execution sequence and contextual Rust explanations, especially mut versus &mut.
+- Visible Bevy/Rust info notes suit terminal reading. Essential explanations
+  should not depend on HTML folding. Template and continue skill reflect this.
+- Discussed Cargo example discovery, shared dependencies and offline mode;
+  Plugin::build versus scheduled systems; query matching and an empty query.
+- User reported removing Spin stopped rotation without error. Explained that
+  the system still runs but no entities match, so its loop has zero iterations.
+  Spin is restored at 1.0 rad/s; user confirmed rotation at close.
+- Preserve the showcase. Reconstruct it before GPU/production improvements.
+- Continue/review do not authorize Git delivery. Explicit Close session authorizes
+  the relevant commit/push; this session invoked that workflow.
 
 ## Checks and evidence
 
-- Historical showcase evidence: four tests passed and a screenshot was inspected
-  on the Mac. Not rerun for this workflow work.
-- Historical rename verification: `cargo check --offline` passed on 2026-09-20.
-  Rename to `the-game` / package `the_game` / title `The Game` was completed;
-  the earlier one-time source-edit permission has ended.
-- Hook marker and injected checkpoint observed in this session: loading verified
-  here, not across all clients or all startup/resume/clear/compact events.
-- Three skill files passed the skill-creator validator using cached PyYAML.
-- Assistant ran the configured hook command from root and `src/`: valid JSON,
-  actual Git state, complete injected docs below the 20,000-character limit.
-  File-content and Git-status comparisons confirmed these runs changed nothing.
-- `git diff --check` passed for the documentation changes.
-- Integration review reconciled AGENTS.md, plan, lesson template, session-start
-  guide and this checkpoint. Hook remains read-only; its configuration is unchanged.
-- No lesson compilation, application tests or visual checks run for skill setup.
-  Fresh-session skill selection and the commit/push workflow have not been executed.
+- Assistant source review: both exercise files match lesson logic. At close the
+  user had added the teaching comments; both files match the lesson code exactly.
+- Assistant ran `cargo check --offline --locked --example learning` on the actual
+  exercise: passed. Reused this result at close because executable code is unchanged.
+- Exact lesson Rust code was previously compiled in a temporary project using
+  copies of the repository manifest/lockfile, with Rust/Cargo 1.97.0. Later changes
+  only added comments; non-comment code was compared with that compiled version.
+- User visually confirmed restored rotation; assistant did not run or visually
+  inspect the GUI. Source review, compilation and user observation are separate evidence.
+- Continue-learning skill validator passed after its instruction updates.
+- `git diff --check` passed during documentation/review work; final staged check
+  is part of closing. No unrelated application tests rerun.
+- Installed Bevy 0.19.0 sources/examples checked for sprite, rotation and plugin
+  lifecycle APIs. No dependency upgrades.
+- Historical showcase evidence: four tests and a screenshot inspected on the Mac;
+  not rerun for this lesson. Historical rename check passed offline.
+- SessionStart hook marker observed in this session. No claim about other clients
+  or all lifecycle events; hook configuration unchanged.
 
 ## Handoff maintenance
 
-After meaningful work, record exact lesson/substep, prepared vs user-implemented
-vs reviewed/discussed state, checks and who ran them, unresolved issues, pending
-exercise and one next action. Honor any explicit no-edits request. Do not infer
-learning completion from generated code, Git history or passing tests alone.
+Record implementation, checks, user observations and discussion separately.
+Reinspect Git after closing; the pre-close hash above is intentionally historical.
+Keep future lessons small and record partial work without inferring understanding
+from generated code or compilation alone.

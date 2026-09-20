@@ -24,6 +24,18 @@
   source, dependencies or exercise solutions unless the user asks you to implement
   or fix them. Read-only review and relevant checks are welcome.
 - Explain intent, ECS/data ownership, alternatives, tradeoffs and failure modes.
+  Order lessons for hands-on learning: brief outcome/prerequisites, complete code
+  to implement, run/check, then explanations and an experiment. Keep any notes
+  between code blocks short and necessary for the immediate implementation.
+  In copyable code, put purpose/caller/timing in concise function doc comments
+  and non-obvious implementation details in inline comments. Reserve the later
+  concepts section for connections, execution flow, ownership and Rust concepts;
+  avoid repeating the comments there.
+  Explain who calls each new Bevy hook/system, when/how often it runs, how its
+  parameters are supplied, and registration versus execution. Include a short
+  execution sequence when helpful. Explain relevant Rust syntax in that code,
+  especially binding mutability versus mutable borrowing. Use visible labelled
+  info notes for these concepts; keep essential content readable in terminal Markdown.
   Provide complete small files or exact replacement blocks, never ambiguous
   fragments. State paths, prerequisites and verification status.
 - Let the user implement, experiment and ask questions before advancing. Do not

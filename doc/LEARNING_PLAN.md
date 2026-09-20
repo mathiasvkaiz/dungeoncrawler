@@ -28,11 +28,24 @@ and waypoints are demonstration features, not mandatory future gameplay.
 ## Learning workflow
 
 1. Tutor prepares one small Markdown lesson using [the template](lessons/TEMPLATE.md).
-2. Discuss the engineering decision and relevant Bevy/ECS mechanisms.
-3. User applies complete copyable code with explicit paths and replacements.
-4. Run meaningful checks and make a small experiment or prediction.
+2. User applies complete copyable code with explicit paths and replacements,
+   preceded only by a brief outcome and necessary prerequisites.
+3. Run meaningful checks, then read/discuss the engineering decisions and
+   relevant Bevy/ECS mechanisms with the implementation in mind.
+4. Make a small experiment or prediction. Notes between code blocks should be
+   short and necessary for the immediate implementation; fuller explanations follow.
 5. Review together and record progress. On "Close session", use the repository
    skill to save the handoff, commit session changes and push the current branch.
+
+Explanations must make Bevy's control flow explicit: who calls a hook/system,
+when and how often, where parameters come from, and registration versus execution.
+Put function purpose/caller/timing in concise doc comments beside the copyable
+code, and non-obvious implementation details in inline comments. Use the later
+concepts section for broader connections instead of repeating those comments.
+Use a short execution sequence and visible `ℹ️ Bevy` / `ℹ️ Rust` notes where useful.
+Explain Rust syntax in the actual exercise (for example `mut` versus `&mut`),
+without assuming general programming experience implies Rust knowledge. Keep
+essential explanations visible for terminal readers rather than behind HTML folds.
 
 Default: the tutor edits documentation, not exercise source, unless explicitly
 asked to implement or fix code. Prepare lessons just in time rather than generating

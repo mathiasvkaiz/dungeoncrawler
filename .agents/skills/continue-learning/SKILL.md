@@ -20,6 +20,12 @@ Follow their teaching contract; this skill does not authorize exercise source ed
    alongside it; preserve the showcase in `src/`. Give exact paths and complete
    copyable files or replacement blocks, intent, ECS ownership, relevant Rust
    explanations, tradeoffs, failure modes, and a small experiment/check.
+   Follow the template's code-first order and visible Bevy/Rust notes. Explain
+   who calls new hooks/systems, when they run and how parameters are supplied;
+   distinguish registration from execution and explain relevant Rust syntax
+   using the lesson's code. Put function-specific explanations in concise doc/
+   inline comments within the copyable code; keep the later concepts section
+   focused on connections without repeating those comments.
 4. Match APIs to the installed Bevy version. Validate copyable code in isolation
    when practical, never by filling in the user's exercise files. Label exactly
    what was checked and what remains unverified.
