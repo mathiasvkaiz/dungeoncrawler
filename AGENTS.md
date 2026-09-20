@@ -40,6 +40,10 @@
   fragments. State paths, prerequisites and verification status.
 - Let the user implement, experiment and ask questions before advancing. Do not
   generate the whole course or complete subsequent lessons unprompted.
+- For complex functions, include a short, plain-language walkthrough of the main
+  steps and result, using a concrete example when helpful. Put it in a function
+  comment or the concepts section, whichever reads better; explain the algorithm
+  simply before deeper details and avoid duplicating the walkthrough in both.
 - Keep the existing showcase in `src/` as reference. The learning branch is
   `learn/bevy-ecs`; exercises use `examples/learning/main.rs` and modules alongside
   it. Do not switch branches or overwrite the showcase without the user's direction.

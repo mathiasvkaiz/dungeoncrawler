@@ -30,6 +30,11 @@ Record what the tutor actually checked; label code not yet compiled as unverifie
 
 ## Design and concepts
 
+For complex functions, start with a short, plain-language walkthrough: what goes
+in, the main steps, and what comes out. Use a small concrete example when helpful.
+This may instead live in a function comment if that reads better; include it once.
+Keep it simple and brief before introducing deeper concepts or tradeoffs.
+
 Explain the Bevy/ECS behavior, ownership and scheduling decisions. Introduce Rust
 details in context. Include an alternative, its tradeoff, and any intentional
 shortcut. Use a small diagram only when it clarifies a real relationship.
