@@ -159,8 +159,9 @@ project with copied Cargo.toml/Cargo.lock and the existing main.rs, scene.rs and
 voxel.rs. `cargo test --offline --locked --example learning` (using that temporary
 manifest and the shared target cache) compiled and passed all six tests, including
 the windowless startup test. Checked chain/deferred-insertion behavior against
-installed Bevy 0.19.0 sources. No learner source edits, actual lesson 03 exercise
-run, startup-log observation or GUI validation have been performed.
+installed Bevy 0.19.0 sources. At preparation time, no learner source edits,
+actual lesson 03 exercise run, startup-log observation or GUI validation had been
+performed. Later implementation review and user observations are recorded below.
 
 ## Design and concepts
 

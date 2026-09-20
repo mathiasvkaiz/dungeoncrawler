@@ -90,8 +90,8 @@ implemented. No pending exercise from lesson 03.
   comment; no assistant changes to executable exercise code.
 - Lesson 02 keeps VoxelGrid independent of Bevy, owned by one PlanetVoxels
   resource for now. Multiple planets may motivate per-planet components later.
-  Lesson 03 replaces the build-time fixture with Startup generation when the user
-  applied it; the pure grid and single-resource ownership stay the same.
+  In lesson 03 the user replaced the build-time fixture with Startup generation;
+  the pure grid and single-resource ownership stayed the same.
 
 ## Checks and evidence
 
