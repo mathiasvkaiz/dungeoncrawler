@@ -6,20 +6,19 @@ for shared rules and workflow skill routing.
 ## Verified repository context
 
 - Branch: `learn/bevy-ecs`, tracking `origin/learn/bevy-ecs`.
-- Pre-close HEAD: `b834a89` — `feat: complete voxel data learning lesson`.
-  Worktree clean at lesson 03 start; HEAD matches the local origin tracking ref.
-  No live remote fetch performed. Previous pre-close/review state at `ad61586`
-  is historical; lesson 02 files are now committed.
+- Lesson 04 preparation baseline: `f84cca9` — `docs: clarify lesson verification timeline`.
+  Clean worktree at start; HEAD equals the local origin/learn/bevy-ecs ref.
+  Lesson 03 was committed in `2540540`. No live remote fetch performed;
+  matching tracking refs are local evidence, not a fresh remote verification.
+  Earlier pre-close HEADs below are historical.
 - Cargo.toml/Cargo.lock: Bevy 0.19.0; Rust edition 2024; dynamic linking.
 - Showcase in `src/` remains reference code, not built hands-on by the user.
 - User implemented lesson 02 in `examples/learning/main.rs`, `planet.rs` and
   `voxel.rs`; `scene.rs` remains unchanged from lesson 01. Assistant edits are
   documentation only; dependencies remain unchanged.
-- Lesson 03 preparation changes documentation only: this checkpoint and the new
-  lesson. User has now replaced planet.rs with the sphere implementation;
-  source inspection confirms radius 3.0 is restored. At the user's explicit request,
-  the assistant added the simple walkthrough to solid_sphere's doc comment and
-  corrected its comment typo; executable code is unchanged.
+- User implemented lesson 04 in planet.rs; executable lines match the lesson.
+  Radius 3.0 and thickness 1.0 are restored. Other exercise files and dependencies
+  remain unchanged from HEAD. Assistant review edits documentation only.
 
 ## Active checkpoint and next action
 
@@ -35,17 +34,32 @@ confirmed restored Some(1) output and continued square rotation at close.
 Introduces plain Rust dense storage, per-axis bounds/indexing, and a resource
 wrapper with one startup reader.
 
-Latest completed: [Lesson 03 — Generate a solid voxel sphere](lessons/03-solid-sphere.md),
+[Lesson 03 — Generate a solid voxel sphere](lessons/03-solid-sphere.md),
 second small A2 increment, complete for this lesson. User implementation reviewed
 with no correctness findings; all six actual-exercise tests passed. The radius
 experiment and simple function walkthrough were discussed. User confirmed the
 restored radius-3 output and continued square rotation, then requested closing
-the lesson. No active unfinished lesson.
+the lesson. Lesson 04 has now been implemented and reviewed.
 
-Next action on Continue learning: prepare one small A2 increment building on the
-solid sphere toward material assignment for the planet. Keep it data-focused;
-defer rendering and the full geographic generator. No lesson 04 prepared or
-implemented. No pending exercise from lesson 03.
+Latest completed: [Lesson 04 — Assign materials inside the sphere](lessons/04-sphere-materials.md),
+one small A2 increment. Assign rock to the core and soil to a fixed radial layer,
+keeping air outside and the same resource ownership. User implementation reviewed
+with no correctness findings; all eight actual-exercise tests pass. Thickness
+experiment reported and discussed; radius 3.0 and thickness 1.0 restored in source.
+
+User confirmed the restored expected startup output and continued square rotation
+at close. Lesson 04 is complete for this increment; no active unfinished lesson
+or pending exercise. No assistant GUI validation.
+
+Next action on Continue learning: prepare one small A2 lesson introducing a
+material palette that maps the existing IDs to display colors, building toward
+the CPU renderer. No lesson 05 prepared; defer full geography and rendering.
+
+Close session authorized committing the three session files and pushing
+learn/bevy-ecs to origin (https://github.com/mathiasvkaiz/the-game.git).
+Pre-close HEAD: f84cca9. Delivery result is to be verified after committing.
+
+The following observations and delivery notes concern completed lesson 03:
 
 - User observed radius 2.0 output center=Some(1), surface=Some(0), outside=Some(0).
   Discussed distances 0/3/4 from [4,4,4], the fixed surface label, and valid air
@@ -57,7 +71,8 @@ implemented. No pending exercise from lesson 03.
 - After the documentation-only lesson close, user explicitly requested Close
   session, authorizing commit and push of the five session files. Destination:
   origin (https://github.com/mathiasvkaiz/the-game.git), learn/bevy-ecs.
-  Delivery outcome must be verified after this handoff is committed.
+  At lesson 04 start, the lesson commit and subsequent documentation commit are
+  present locally and HEAD matches the origin tracking ref; no live fetch done.
 - No sphere rendering or geographic generator prepared.
 
 ## Teaching decisions and discussion
@@ -84,16 +99,66 @@ implemented. No pending exercise from lesson 03.
   the system still runs but no entities match, so its loop has zero iterations.
   Spin is restored at 1.0 rad/s; user confirmed rotation at close.
 - Preserve the showcase. Reconstruct it before GPU/production improvements.
-- Continue/review do not authorize Git delivery. The previous session closed
-  lesson 02. This session invoked Continue learning, Review learning, and now
-  Close session. A separate explicit request authorized the source walkthrough
-  comment; no assistant changes to executable exercise code.
+- Continue/review do not authorize Git delivery. The lesson 03 session invoked
+  Continue learning, Review learning, then Close session. A separate explicit
+  request authorized the source walkthrough comment. The current lesson 04
+  requests authorized preparation/review and now explicit Close session delivery;
+  no assistant executable source edits.
+- Lesson 04 keeps byte IDs and selects materials during sphere generation.
+  The fixed soil layer is a temporary rule, not geography or exposed-face detection.
+  Palette/rendering work remains deferred. User tried thickness 2 and reported
+  unchanged logged samples. Discussed why distances 0/2/3/4 retain materials,
+  while unlogged [5,4,4] at distance 1 changes from rock to soil.
+- Discussed nested loops as layers/rows/cells, size indices [x,y,z] = [0,1,2],
+  exclusive ranges and x-fastest storage. Explained squared distance with simple
+  ASCII diagrams and concrete offsets. Radius 3 spans seven axial cell centers;
+  radius 6 in a 9-cubed grid clips at the box, leaves far corners air (48 > 36),
+  and exposes rock at face centers. Discussion is recorded, not an inference of
+  broader understanding; further questions remain welcome.
 - Lesson 02 keeps VoxelGrid independent of Bevy, owned by one PlanetVoxels
   resource for now. Multiple planets may motivate per-planet components later.
   In lesson 03 the user replaced the build-time fixture with Startup generation;
   the pure grid and single-resource ownership stayed the same.
 
 ## Checks and evidence
+
+Lesson 04 user implementation review (2026-09-20):
+
+- Branch learn/bevy-ecs, HEAD f84cca9. Changes limited to planet.rs, this checkpoint
+  and untracked lesson 04; no staged changes. Bevy 0.19.0, Rust/Cargo 1.97.0.
+- Reviewed actual planet/main/scene/voxel integration, loop bounds and centering,
+  squared-distance comparisons, core clamp, material IDs, resource ownership and
+  chained Startup insertion/reader. Executable lines match lesson 04. No correctness
+  findings within this lesson's small-grid scope. Radius 3.0/thickness 1.0 restored.
+- `cargo test --offline --locked --example learning` on the actual exercise passed
+  all eight tests. `git diff --check` passed. No GUI run or unrelated tests.
+- Cosmetic comment typo at planet.rs:33: thicknexx should read thickness. Left to
+  the user; no behavioral impact. No source or dependency edits by assistant.
+- User reported the unchanged expected startup log during the thickness experiment.
+  At review, restored-run output and visual confirmation were pending. User has
+  now confirmed both at close. Experiment/distance discussion recorded above.
+- Close: final executable code still matches the reviewed/tested lesson. Reused
+  eight passing tests; no redundant test or GUI run. User source preserved,
+  including the cosmetic comment typo. Closing scope: planet.rs, lesson 04 and
+  this checkpoint. No next lesson prepared.
+
+
+Lesson 04 preparation (2026-09-20):
+
+- Read plan, checkpoint, completed lesson 03, template and actual exercise files.
+  Reconfirmed clean learn/bevy-ecs at f84cca9, matching local origin tracking ref,
+  Bevy 0.19.0 and Rust/Cargo 1.97.0; no dependency changes.
+- Exact lesson 04 Rust block compiled in /private/tmp/lesson04-uq52kxm1 with
+  copied manifest/lockfile and unchanged learner main/scene/voxel files.
+  `cargo test --offline --locked --example learning` using that manifest and
+  shared target cache passed all eight tests: storage, occupied geometry,
+  material boundaries, tiny radii and windowless Startup integration.
+- Consulted installed Bevy 0.19.0 scheduling/Commands sources. No new Bevy API.
+- At preparation time, only lesson 04 and this checkpoint changed. No actual
+  learner implementation review, lesson 04 log/visual observation, source edit or
+  GUI run had occurred. Exercise and discussion were then pending; isolated tests
+  establish preparation only. Later review and close evidence appear above.
+
 
 Lesson 03 close: final executable code matches the reviewed/tested lesson. Reuse
 the six passing tests and user-confirmed output/rotation. Scope: AGENTS.md,
