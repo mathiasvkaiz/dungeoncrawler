@@ -6,14 +6,15 @@ for shared rules and workflow skill routing.
 ## Verified repository context
 
 - Branch: `learn/bevy-ecs`, tracking `origin/learn/bevy-ecs`.
-- Lesson 07 preparation baseline: `7a9f071` — `docs: complete lesson 06 closeout and clean whitespace`.
+- Lesson 08 preparation baseline: `f15c980` — `feat: display voxel surface and complete lesson 07`.
   Clean worktree at start on learn/bevy-ecs; HEAD matches the local origin tracking
   ref. No live remote fetch. Earlier HEADs below are historical.
 - Cargo.toml/Cargo.lock: Bevy 0.19.0; Rust edition 2024; dynamic linking.
 - Showcase in `src/` remains reference code, not built hands-on by the user.
-- User implemented lessons 02–07 in the learning example. Scene now displays the
-  first occupied voxel along increasing Z. Radius 3.0, thickness 1.0, and original
-  soil color remain. The assistant changed documentation only.
+- User implemented lessons 02–08 in the learning example. Scene now displays the
+  first occupied voxel along increasing Z in diagnostic depth grayscale. Radius 3.0, thickness 1.0, and original
+  soil color remain. Assistant source cleanup at lesson 08 close is limited to
+  explicitly authorized comment typos/markers and trailing whitespace.
 
 ## Active checkpoint and next action
 
@@ -72,10 +73,25 @@ User confirmed the center is brown. Lesson 07 is complete for this increment:
 implementation reviewed, 11 actual tests passed, visual result confirmed by the
 user, experiment discussed, and forward scan restored. No pending exercise.
 
-Next action on Continue learning: prepare one small A3 lesson retaining the first
-hit's depth alongside its material, with a diagnostic depth view to make the surface
-shape visible. Keep fixed-axis viewing and existing grid/asset ownership; defer
-arbitrary rotation, lighting, and geography. No lesson 08 prepared.
+Latest completed: [Lesson 08 — Keep the visible surface depth](lessons/08-voxel-surface-depth.md).
+User implemented material/Z hits and both display choices; review found no
+correctness issues. All 12 actual exercise tests passed. User reports differently
+gray-colored cross pixels in Depth and uniform brown in Material; discussed varying
+depth versus uniform visible soil. Depth is restored. No pending exercise and no
+assistant GUI validation. Lesson 08 is complete for this increment.
+
+Next action on Continue learning: prepare one small A3 increment combining material
+color with a depth cue, retaining fixed-axis traversal and current ownership.
+Explain the cue as a visualization rather than physical lighting; defer arbitrary
+rotation and geography. No subsequent lesson prepared.
+
+Lesson 08 Close session (2026-09-21): user authorized review and, if fine, close;
+then explicitly authorized fixing comment typos and whitespace warnings. Pre-close
+HEAD: f15c980. Scope: examples/learning/scene.rs, lesson 08, this checkpoint.
+Destination: origin/learn/bevy-ecs (https://github.com/mathiasvkaiz/the-game.git).
+No staged changes or existing unpushed commits at close start. Cleanup changes only
+comments and whitespace; executable lines verified unchanged, so reuse 12 passing
+actual tests. Push outcome will be verified after committing.
 
 Lesson 07 Close session (2026-09-21): user explicitly authorized handoff, commit,
 and push. Pre-close HEAD: 7a9f071. Scope: examples/learning/scene.rs, lesson 07,
@@ -83,7 +99,8 @@ and this checkpoint. Destination: origin/learn/bevy-ecs
 (https://github.com/mathiasvkaiz/the-game.git). No staged changes or existing
 unpushed commits at close start. Final executable scene matches the reviewed
 lesson; reuse the 11 passing actual tests and user-confirmed brown surface.
-No source edits or GUI run at close. Delivery outcome is checked after committing.
+No source edits or GUI run at close. At lesson 08 start, delivery commit `f15c980`
+is present and matches the local origin tracking ref; no live remote fetch performed.
 
 Lesson 06 initial close was delivered as 9c1cf56 to origin/learn/bevy-ecs with
 visual/experiment observations pending. User subsequently supplied those observations
@@ -167,6 +184,38 @@ The following observations and delivery notes concern completed lesson 03:
   the pure grid and single-resource ownership stayed the same.
 
 ## Checks and evidence
+
+Lesson 08 implementation review and close (2026-09-21):
+
+- Reviewed actual scene.rs at f15c980 on learn/bevy-ecs. Checked coupled material/Z
+  hits, early return, depth normalization including one-layer grids, transparent
+  columns, Y orientation, image assets and PostStartup resource access.
+- `cargo test --offline --locked --example learning` passed all 12 actual tests.
+  No correctness findings. Omitting Clone/Copy on the fieldless view enum is valid:
+  these match patterns do not move data. User visual and experiment evidence is
+  recorded separately above; no assistant GUI run.
+- Initial diff check found trailing whitespace on scene.rs lines 138 and 160.
+  User explicitly requested cleanup before close: fixed both, comment typos, and
+  doc-comment markers. Compared non-comment executable lines before/after: identical.
+  Reuse the passing tests; no dependency, showcase, or exercise logic changes.
+
+
+Lesson 08 preparation (2026-09-21):
+
+- Read rules, continue skill, plan, checkpoint, lesson 07, template, and actual
+  exercise modules. Verified clean learn/bevy-ecs at f15c980, matching local origin
+  tracking ref. Bevy 0.19.0, edition 2024, Rust/Cargo 1.97.0 reconfirmed.
+- Extracted the exact lesson 08 Rust block into /private/tmp/lesson08-84z9yvhs,
+  with copied manifest/lockfile and exercise modules, using the shared target cache.
+  Offline locked example tests passed all 12. Coverage includes material occlusion,
+  coupled material/depth hit data, depth endpoints, Y orientation, empty columns,
+  a single-layer grid, and windowless generated-image asset integration.
+- Consulted installed Bevy 0.19.0 image and main schedule sources. New helpers and
+  hit/view types are plain Rust; no new Bevy scheduling or ownership mechanism.
+- Only lesson 08 and progress documentation changed. No exercise/dependency edits,
+  actual lesson 08 review, GUI validation, learner experiment, commit, or push.
+  Isolated tests establish preparation only; implementation and discussion pending.
+
 
 Lesson 07 implementation and experiment discussion (2026-09-21):
 

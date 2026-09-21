@@ -25,7 +25,7 @@ fn setup_scene(
 ) {
     let grid = planet.grid();
     let [width, height, _] = grid.size();
-    let image = surface_image(grid);
+    let image = surface_image(grid, SurfaceView::Depth);
     let handle = images.add(image);
 
     commands.spawn(Camera2d);
@@ -36,12 +36,48 @@ fn setup_scene(
     });
 }
 
-/// Called by setup_scene or tests; view the grid from low Z toward high Z.
-/// Walkthrough: allocate a clear image, visit each pixel's XY column, then scan
-/// its depth until the first non-air cell. Copy that material's color, or air
-/// if the whole column is empty. Reverse Y to keep larger voxel > at the top.
-/// Panics for an unknown visible material or unsupported image dimensions.
-fn surface_image(grid: &VoxelGrid) -> Image {
+/// A temporary scan result, owned locally by the renderer; not an ECS component.
+#[derive(Debug, PartialEq, Eq)]
+struct SurfaceHit {
+    material: u8,
+    z: usize,
+}
+
+/// Choose how to display the same visible surface.
+enum SurfaceView {
+    Material,
+    Depth,
+}
+
+/// Called by surface_image or tests for a valid XY column; return its nearest solid.
+/// The early return keeps material and depth from the same cell together.
+fn first_hit(grid: &VoxelGrid, x: usize, y: usize) -> Option<SurfaceHit> {
+    for z in 0..grid.size()[2] {
+        let material = grid.get([x, y, z]).expect("in-bounds voxel");
+        if material != AIR {
+            return Some(SurfaceHit { material, z });
+        }
+    }
+    None
+}
+
+/// Called by surface_image or tests; encode a valid hit's Z as opaque grayscale.
+/// Low Z is bright; high Z is dark. A one-layer grid uses the nearest value.
+fn depth_rgba(z: usize, depth: usize) -> [u8; 4] {
+    assert!(z < depth, "depth sample out of bounds");
+    let span = (depth -1).max(1) as f32;
+    let fraction = z as f32 / span;
+    // Keep the far plane visible; these are display bytes, not physical lighting.
+    let value = (255.0 - 191.0 * fraction).round() as u8;
+    [value, value, value, 255]
+}
+
+/// Called by setup_scene or tests; render fixed-axis hits as materials or depth.
+/// Walkthrough: allocate a clear image, visit each XY column, find its first hit,
+/// then select that hit's display color. Empty columns stay transparent.
+/// Reverse Y so larger voxel Y appears at the top.
+/// Panics for unsupported image dimensions or unknown visible IDs in material view.
+fn surface_image(grid: &VoxelGrid, view: SurfaceView) -> Image {
     let [width, height, depth] = grid.size();
     let image_width = u32::try_from(width).expect("image width exceeds u32");
     let image_height = u32::try_from(height).expect("image height exceeds u32");
@@ -61,16 +97,14 @@ fn surface_image(grid: &VoxelGrid) -> Image {
     for row in 0..image_height {
         let y = height - 1 - row as usize;
         for x in 0..image_width {
-            let mut material = AIR;
-            for z in 0..depth {
-                let candidate = grid.get([x as usize, y, z]).expect("in-bounds voxel");
-                if candidate != AIR {
-                    material = candidate;
-                    // Stop only the depth loop: nearer solid cells hide farther ones.
-                    break;
-                }
-            }
-            let color = rgba(material).expect("material missing from palette");
+            let color = match first_hit(grid, x as usize, y) {
+                Some(hit) => match view {
+                    SurfaceView::Material => rgba(hit.material)
+                        .expect("material missing from palette"),
+                    SurfaceView::Depth => depth_rgba(hit.z, depth),
+                },
+                None => [0, 0, 0, 0],
+            };
             image
                 .pixel_bytes_mut(UVec3::new(x, row, 0))
                 .expect("in-bounds RGBA pixel")
@@ -93,13 +127,35 @@ mod tests {
         assert!(grid.set([0, 1, 2], ROCK));
         assert!(grid.set([2, 0, 3], ROCK));
         assert!(grid.set([2, 1, 0], SOIL));
-        let image = surface_image(&grid);
+        let image = surface_image(&grid, SurfaceView::Material);
         assert_eq!(image.texture_descriptor.size.width, 3);
         assert_eq!(image.texture_descriptor.size.height, 2);
         assert_eq!(image.pixel_bytes(UVec3::new(0, 0, 0)).unwrap(), rgba(SOIL).unwrap());
         assert_eq!(image.pixel_bytes(UVec3::new(2, 1, 0)).unwrap(), rgba(ROCK).unwrap());
         assert_eq!(image.pixel_bytes(UVec3::new(2, 0, 0)).unwrap(), rgba(SOIL).unwrap());
         assert_eq!(image.pixel_bytes(UVec3::new(1, 0, 0)).unwrap(), &[0, 0, 0, 0]);
+    }
+
+    /// Cargo checks coupled hit data, clear columns, depth colors and Y orientation.
+    #[test]
+    fn depth_view_preserves_first_hit_distance() {
+        let mut grid = VoxelGrid::new([3, 2, 4]);
+        assert!(grid.set([0, 1, 1], SOIL));
+        assert!(grid.set([0, 1, 2], ROCK));
+        assert!(grid.set([2, 0, 3], ROCK));
+        assert!(grid.set([2, 1, 0], SOIL));
+        assert_eq!(first_hit(&grid, 0, 1), Some(SurfaceHit { material: SOIL, z: 1 }));
+        assert_eq!(first_hit(&grid, 1, 1), None);
+        let image = surface_image(&grid, SurfaceView::Depth);
+        assert_eq!(image.pixel_bytes(UVec3::new(0, 0, 0)).unwrap(), &[191, 191, 191, 255]);
+        assert_eq!(image.pixel_bytes(UVec3::new(2, 1, 0)).unwrap(), &[64, 64, 64, 255]);
+        assert_eq!(image.pixel_bytes(UVec3::new(2, 0, 0)).unwrap(), &[255, 255, 255, 255]);
+        assert_eq!(image.pixel_bytes(UVec3::new(1, 0, 0)).unwrap(), &[0, 0, 0, 0]);
+
+        let mut thin = VoxelGrid::new([1, 1, 1]);
+        assert!(thin.set([0, 0, 0], ROCK));
+        let image = surface_image(&thin, SurfaceView::Depth);
+        assert_eq!(image.pixel_bytes(UVec3::ZERO).unwrap(), &[255, 255, 255, 255]);
     }
 
     /// Cargo runs both plugins without a window to check startup and asset wiring.
@@ -114,8 +170,8 @@ mod tests {
         let images = app.world().resource::<Assets<Image>>();
         let image = images.get(&sprite.image).expect("sprite references stored image");
         assert_eq!(sprite.custom_size, Some(Vec2::splat(360.0)));
-        assert_eq!(image.pixel_bytes(UVec3::new(4, 4, 0)).unwrap(), rgba(SOIL).unwrap());
-        assert_eq!(image.pixel_bytes(UVec3::new(7, 4, 0)).unwrap(), rgba(SOIL).unwrap());
+        assert_eq!(image.pixel_bytes(UVec3::new(4, 4, 0)).unwrap(), [231, 231, 231, 255]);
+        assert_eq!(image.pixel_bytes(UVec3::new(7, 4, 0)).unwrap(), [160, 160, 160, 255]);
         assert_eq!(image.pixel_bytes(UVec3::new(8, 4, 0)).unwrap(), &[0, 0, 0, 0]);
     }
 }
