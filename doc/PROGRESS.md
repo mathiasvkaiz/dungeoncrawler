@@ -1,25 +1,20 @@
 # Current learning checkpoint
 
-Updated: 2026-09-20. See LEARNING_PLAN.md for the curriculum and root AGENTS.md
+Updated: 2026-09-21. See LEARNING_PLAN.md for the curriculum and root AGENTS.md
 for shared rules and workflow skill routing.
 
 ## Verified repository context
 
 - Branch: `learn/bevy-ecs`, tracking `origin/learn/bevy-ecs`.
-- Lesson 05 preparation baseline: `be2ef69` — `feat: complete sphere materials learning lesson`.
-  Clean worktree at start; HEAD equals the local origin/learn/bevy-ecs ref.
-  Lesson 04 delivery commit is present locally. No live remote fetch performed;
-  matching tracking refs are local evidence, not a fresh remote verification.
-  Earlier pre-close HEADs below are historical.
+- Lesson 06 preparation baseline: `9a37e6f` — `feat: reverted experiment checkpoint`.
+  Clean worktree at start on learn/bevy-ecs; status reports no ahead/behind against
+  local origin tracking ref. No live remote fetch. Earlier HEADs are historical.
 - Cargo.toml/Cargo.lock: Bevy 0.19.0; Rust edition 2024; dynamic linking.
 - Showcase in `src/` remains reference code, not built hands-on by the user.
-- User implemented lesson 02 in `examples/learning/main.rs`, `planet.rs` and
-  `voxel.rs`; `scene.rs` remains unchanged from lesson 01. Assistant edits are
-  documentation only; dependencies remain unchanged.
-- User implemented lesson 04 in planet.rs; executable lines match the lesson.
-  Radius 3.0 and thickness 1.0 are restored. Lesson 05 now adds material.rs and updates main.rs and planet.rs.
-  Scene, voxel storage, and dependencies remain unchanged from HEAD.
-  Assistant review edits documentation only.
+- User implemented lessons 02–05 in the learning example. Lesson 06 now modifies
+  planet.rs, scene.rs, and voxel.rs; main.rs/material.rs and dependencies are unchanged.
+  Radius 3.0, thickness 1.0, original soil color, and center slice depth / 2 are present.
+  Assistant review changes documentation only.
 
 ## Active checkpoint and next action
 
@@ -42,7 +37,7 @@ experiment and simple function walkthrough were discussed. User confirmed the
 restored radius-3 output and continued square rotation, then requested closing
 the lesson. Lesson 04 has now been implemented and reviewed.
 
-Latest completed: [Lesson 04 — Assign materials inside the sphere](lessons/04-sphere-materials.md),
+[Lesson 04 — Assign materials inside the sphere](lessons/04-sphere-materials.md),
 one small A2 increment. Assign rock to the core and soil to a fixed radial layer,
 keeping air outside and the same resource ownership. User implementation reviewed
 with no correctness findings; all eight actual-exercise tests pass. Thickness
@@ -51,27 +46,42 @@ experiment reported and discussed; radius 3.0 and thickness 1.0 restored in sour
 User confirmed the restored expected startup output and continued square rotation
 at close. Lesson 04 is complete for this increment. No assistant GUI validation.
 
-Active: [Lesson 05 — Map material IDs to colors](lessons/05-material-palette.md),
-implemented and reviewed; session saved with experiment color still applied.
-User supplied the expected original palette log and confirmed continued rotation,
-then supplied the experiment log: only surface changed to [60,160,70,255].
-This demonstrates the palette's effect on displayed color values; voxel IDs and
-square rendering are independent of the palette. No assistant GUI validation.
+Latest completed: [Lesson 05 — Map material IDs to colors](lessons/05-material-palette.md).
+Implementation reviewed; user supplied baseline and experiment logs and confirmed
+rotation. User then requested progression and confirmed the correction to `Some`.
+At 9a37e6f, original soil [140,95,55,255] is restored and all nine actual tests pass.
+No new post-correction app log or assistant GUI validation; prior user observations
+remain the visual evidence. Typo and restoration checkpoint are resolved.
 
-Resume check: HEAD `c2fb335` (`feat: reverted experiment checkpoint`), clean
-learn/bevy-ecs worktree at start. User restored the RGB values but accidentally
-changed `Some` to `ome` at material.rs:12. Current example fails compilation
-(E0425: cannot find function `ome`); no tests executed on this revision.
+Active: [Lesson 06 — Display a voxel cross-section](lessons/06-voxel-slice-image.md),
+prepared and tested in isolation. Introduces a one-time XY slice Image, a sprite,
+read-only grid access, and PostStartup presentation. This is a diagnostic bridge
+toward A3; the final globe still needs surface visibility, view direction and lighting.
+User implementation reviewed on 2026-09-21 with no correctness findings. The
+PlanetPlugin implementation is restored alongside the PlanetVoxels accessor;
+registration and Startup/PostStartup ordering are correct. All 11 actual tests pass.
+One cosmetic issue remains: trailing whitespace at voxel.rs:26. Source uses the
+center slice depth / 2. Visual confirmation and experiment observations are pending.
 
-Next action: user changes the line to `SOIL => Some([140, 95, 55, 255]),`, saves,
-and runs the example tests/app. Finish lesson 05 restoration before advancing.
-No lesson 06 prepared. Assistant updated documentation only; no source edits.
+Next action: user runs the app, checks the stationary rock/soil cross-section and
+transparent margins, tries z=1, then restores depth / 2 and reports observations.
+No lesson 07 prepared. Session closed at this partial checkpoint; resume the
+visual check and experiment before advancing. Assistant changed documentation only.
+
+Lesson 06 close (2026-09-21): explicit Close session authorizes committing/pushing
+six files: planet.rs, scene.rs, voxel.rs, this checkpoint, lesson 05 restoration
+notes, and lesson 06. Pre-close HEAD: 9a37e6f. Destination: origin,
+learn/bevy-ecs (https://github.com/mathiasvkaiz/the-game.git).
+Final source is unchanged since review; reuse 11 passing actual tests. No repeated
+test or GUI run. Preserve known cosmetic whitespace at voxel.rs:26; diff check
+reports it. No existing staged changes or unpushed commits at close start.
+Delivery outcome will be verified after committing; lesson completion remains pending.
 
 Lesson 05 close: user requested closing after reporting the experiment.
 Authorized scope: main.rs, planet.rs, material.rs, lesson 05, and this checkpoint.
 Pre-close HEAD: be2ef69. Destination: origin, learn/bevy-ecs
-(https://github.com/mathiasvkaiz/the-game.git). Commit/push outcome will be verified
-by Git after delivery; this entry does not claim a push has already succeeded.
+(https://github.com/mathiasvkaiz/the-game.git). Delivery succeeded as 02a06df in
+this session; later user commits restored the palette, ending at 9a37e6f.
 
 Lesson 04 Close session authorized committing three session files and pushing
 learn/bevy-ecs to origin (https://github.com/mathiasvkaiz/the-game.git).
@@ -140,6 +150,41 @@ The following observations and delivery notes concern completed lesson 03:
   the pure grid and single-resource ownership stayed the same.
 
 ## Checks and evidence
+
+Lesson 06 user implementation review (2026-09-21):
+
+- Branch learn/bevy-ecs, HEAD 9a37e6f; no staged changes. Worktree scope: three
+  exercise files (planet/scene/voxel), progress, lesson 05, and new lesson 06.
+  Bevy 0.19.0, Rust/Cargo 1.97.0 and edition 2024 reconfirmed.
+- Reviewed restored plugin registration, shared grid access, dimensions/Y reversal,
+  z bounds, palette mapping, image format/sampler, asset handle ownership, sprite
+  sizing, and PostStartup dependency. Scene executable text matches the lesson;
+  grid/resource additions and existing generator integration are correct for scope.
+- `cargo test --offline --locked --example learning` passed all 11 actual tests,
+  including asymmetric slice mapping and windowless plugin/asset integration.
+- `git diff --check` reports only trailing whitespace at voxel.rs:26. Cosmetic;
+  left for user cleanup. No source edits or auto-formatting by assistant.
+- No GUI run, user visual report, or experiment observations for lesson 06 yet.
+  Center slice is present in source; this does not prove an experiment was performed.
+  No correctness findings; no completion/advancement, commits, or pushes.
+
+
+Lesson 06 preparation / lesson 05 restoration (2026-09-20):
+
+- Verified clean learn/bevy-ecs at 9a37e6f, corrected Some and original palette.
+  `cargo test --offline --locked --example learning` passed all nine actual tests.
+  Bevy 0.19.0, Rust/Cargo 1.97.0, edition 2024; no dependency changes.
+- Exact lesson 06 blocks applied in /private/tmp/lesson06-txjp2ivs using copied
+  manifest/lockfile and remaining source, shared target cache. Offline locked
+  example tests passed all 11: previous nine plus asymmetric slice orientation/
+  layer selection and windowless two-plugin startup/asset integration.
+- Consulted installed Bevy 0.19.0 cpu_draw, Image/ImageSampler/Sprite and main
+  schedule sources. No learner lesson 06 source edits, actual review, app run,
+  GUI observation, or experiment. Tests establish preparation, not completion.
+- Chose a static slice to teach image assets before full surface rendering. Grid
+  stays authoritative; PostStartup consumes Startup's generated resource. Runtime
+  image invalidation and general rendering remain later work.
+
 
 Lesson 05 resume (2026-09-20):
 

@@ -1,6 +1,6 @@
 # 05 — Map material IDs to colors
 
-Status: reviewed; app observations and experiment recorded; baseline restoration pending.
+Status: complete for this increment; restoration verified in source and tests.
 Prerequisite: lesson 04 complete; radius 3.0 and soil thickness 1.0 restored.
 Target: `learn/bevy-ecs`, `examples/learning/`.
 Version context: Bevy 0.19.0, Rust edition 2024, Rust/Cargo 1.97.0.
@@ -219,7 +219,7 @@ Restore the original soil color and rerun. Bring your observations or request
 - [x] User applied the code; reviewed with no correctness findings.
 - [x] Actual exercise tests, startup log, and continued rotation verified (user app observations).
 - [x] Palette experiment reported; only the surface sample changed.
-- [ ] Restore original soil color and confirm the baseline again.
+- [x] Original soil color restored; source verified and nine tests passed.
 
 Decision: share material IDs and a pure fixed palette in one module; retain byte
 storage and the existing ECS ownership. Revisit a palette resource when runtime
@@ -227,5 +227,8 @@ editing is needed. Review (2026-09-20): executable changes matched the lesson an
 nine actual-exercise tests passed. At close, user reported both expected logs and
 continued rotation. Green SOIL [60,160,70,255] remains in source; all nine tests
 passed again on that final version. No assistant GUI validation or source edits.
-Session saved with baseline restoration pending: restore [140,95,55,255] and rerun
-the app before finishing this checkpoint. No subsequent lesson is prepared.
+Subsequent resume: user corrected the restoration typo; at 9a37e6f source has
+`Some([140, 95, 55, 255])` and all nine actual tests pass. User requested progression
+and confirmed the correction. Earlier user logs establish baseline and experiment
+observations; no new post-correction GUI observation was supplied or inferred.
+Lesson 06 is now prepared separately.

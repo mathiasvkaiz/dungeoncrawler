@@ -7,16 +7,22 @@ pub struct PlanetPlugin;
 
 /// The ECS world owns this resource; it owns the plain Rust voxel grid.
 #[derive(Resource)]
-struct PlanetVoxels {
+pub(crate) struct PlanetVoxels {
     grid: VoxelGrid,
 }
 
-impl Plugin for PlanetPlugin {
-    /// Bevy calls this when main adds PlanetPlugin, before run().
-    /// Register generation followed by its reader; neither runs here.
-    fn build(&self, app: &mut App) {
-        app.add_systems(Startup, (generate_planet, report_planet).chain());
+impl PlanetVoxels {
+    /// Called by presentation readers as needed; borrow the authoritative grid.
+    pub(crate) fn grid(&self) -> &VoxelGrid {
+        &self.grid
     }
+}
+
+impl Plugin for PlanetPlugin {
+  /// Bevy calls this during add_plugins to register Startup systems.
+  fn build(&self, app: &mut App) {
+      app.add_systems(Startup, (generate_planet, report_planet).chain());
+  }
 }
 
 /// Bevy runs this once in Startup, supplying a deferred command queue.

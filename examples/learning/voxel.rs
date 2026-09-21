@@ -19,6 +19,11 @@ impl VoxelGrid {
         }
     }
 
+    /// Called by readers as needed; return copied dimensions without exposing cells.
+    pub fn size(&self) -> [usize; 3] {
+        self.size
+    }
+    
     /// Called by get/set for each access; reject coordinates outside any axis.
     fn index(&self, [x, y, z]: [usize; 3]) -> Option<usize> {
         let [width, height, depth] = self.size;
