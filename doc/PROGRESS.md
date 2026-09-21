@@ -6,15 +6,14 @@ for shared rules and workflow skill routing.
 ## Verified repository context
 
 - Branch: `learn/bevy-ecs`, tracking `origin/learn/bevy-ecs`.
-- Lesson 06 preparation baseline: `9a37e6f` — `feat: reverted experiment checkpoint`.
-  Clean worktree at start on learn/bevy-ecs; status reports no ahead/behind against
-  local origin tracking ref. No live remote fetch. Earlier HEADs are historical.
+- Lesson 07 preparation baseline: `7a9f071` — `docs: complete lesson 06 closeout and clean whitespace`.
+  Clean worktree at start on learn/bevy-ecs; HEAD matches the local origin tracking
+  ref. No live remote fetch. Earlier HEADs below are historical.
 - Cargo.toml/Cargo.lock: Bevy 0.19.0; Rust edition 2024; dynamic linking.
 - Showcase in `src/` remains reference code, not built hands-on by the user.
-- User implemented lessons 02–05 in the learning example. Lesson 06 now modifies
-  planet.rs, scene.rs, and voxel.rs; main.rs/material.rs and dependencies are unchanged.
-  Radius 3.0, thickness 1.0, original soil color, and center slice depth / 2 are present.
-  Assistant review changes documentation only.
+- User implemented lessons 02–07 in the learning example. Scene now displays the
+  first occupied voxel along increasing Z. Radius 3.0, thickness 1.0, and original
+  soil color remain. The assistant changed documentation only.
 
 ## Active checkpoint and next action
 
@@ -53,7 +52,7 @@ At 9a37e6f, original soil [140,95,55,255] is restored and all nine actual tests 
 No new post-correction app log or assistant GUI validation; prior user observations
 remain the visual evidence. Typo and restoration checkpoint are resolved.
 
-Latest completed: [Lesson 06 — Display a voxel cross-section](lessons/06-voxel-slice-image.md).
+Previously completed: [Lesson 06 — Display a voxel cross-section](lessons/06-voxel-slice-image.md).
 User implementation reviewed with no correctness findings; all 11 actual tests
 passed. PlanetPlugin registration and PostStartup presentation are correct.
 User confirmed the cross-section displays correctly and reported one central cell
@@ -62,10 +61,29 @@ Final source uses `depth / 2`; radius 3.0, thickness 1.0, original palette retai
 Visual evidence is user-reported; no assistant GUI validation. Lesson 06 is complete
 for this increment, with no pending exercise.
 
-Next action on Continue learning: prepare one small step from slice display toward
-surface visibility, finding the first occupied voxel along a fixed viewing axis.
-Keep image asset ownership and the grid boundary; defer arbitrary view rotation,
-lighting and geography. No lesson 07 prepared.
+Latest completed: [Lesson 07 — Find the visible voxel surface](lessons/07-voxel-surface-image.md).
+User implemented scene.rs; reviewed with no correctness findings and all 11 actual
+exercise tests passed. Forward scan is restored in source. User reports the same
+cross-like outline as lesson 06 and unchanged appearance during the reverse-scan
+experiment, with a failing test during that experiment. Explained sphere symmetry
+and the asymmetric fixture. Grid and asset ownership stay unchanged.
+
+User confirmed the center is brown. Lesson 07 is complete for this increment:
+implementation reviewed, 11 actual tests passed, visual result confirmed by the
+user, experiment discussed, and forward scan restored. No pending exercise.
+
+Next action on Continue learning: prepare one small A3 lesson retaining the first
+hit's depth alongside its material, with a diagnostic depth view to make the surface
+shape visible. Keep fixed-axis viewing and existing grid/asset ownership; defer
+arbitrary rotation, lighting, and geography. No lesson 08 prepared.
+
+Lesson 07 Close session (2026-09-21): user explicitly authorized handoff, commit,
+and push. Pre-close HEAD: 7a9f071. Scope: examples/learning/scene.rs, lesson 07,
+and this checkpoint. Destination: origin/learn/bevy-ecs
+(https://github.com/mathiasvkaiz/the-game.git). No staged changes or existing
+unpushed commits at close start. Final executable scene matches the reviewed
+lesson; reuse the 11 passing actual tests and user-confirmed brown surface.
+No source edits or GUI run at close. Delivery outcome is checked after committing.
 
 Lesson 06 initial close was delivered as 9c1cf56 to origin/learn/bevy-ecs with
 visual/experiment observations pending. User subsequently supplied those observations
@@ -73,7 +91,8 @@ and explicitly authorized final documentation, whitespace cleanup, commit and pu
 Final closeout pre-commit HEAD: 9c1cf56. Scope: lesson 06, this checkpoint, voxel.rs
 trailing whitespace only. Destination: origin, learn/bevy-ecs
 (https://github.com/mathiasvkaiz/the-game.git). Executable code unchanged; reuse the
-11 passing tests. Final delivery outcome is verified after committing.
+11 passing tests. At lesson 07 start, delivery commit `7a9f071` is present and matches the local
+origin tracking ref; no live remote verification performed.
 
 Lesson 05 close: user requested closing after reporting the experiment.
 Authorized scope: main.rs, planet.rs, material.rs, lesson 05, and this checkpoint.
@@ -148,6 +167,40 @@ The following observations and delivery notes concern completed lesson 03:
   the pure grid and single-resource ownership stayed the same.
 
 ## Checks and evidence
+
+Lesson 07 implementation and experiment discussion (2026-09-21):
+
+- Reviewed actual scene.rs on learn/bevy-ecs at 7a9f071. Only scene.rs and the two
+  lesson preparation documents differ from HEAD; no staged changes. Bevy 0.19.0
+  and edition 2024 reconfirmed. Source implements the documented forward scan,
+  early break, per-pixel AIR reset, palette conversion, and existing asset wiring.
+- `cargo test --offline --locked --example learning` passed all 11 actual tests.
+  `git diff --check` passed. No correctness findings, source edits, or GUI run.
+- User reports unchanged cross-like outline and unchanged sphere during reverse
+  scan, plus a failing experiment test. Failure log not supplied or reproduced;
+  the fixture predicts rock instead of expected soil at image pixel [0,0] under
+  reverse scanning. Current restored source passes. Explained why the symmetric
+  sphere hides scan reversal but the asymmetric test catches it.
+- Center pixel is soil in the passing integration test. User subsequently confirmed
+  the displayed center is brown, resolving the final visual check. No assistant GUI
+  validation. Reused the passing tests; this confirmation changes documentation only.
+
+
+Lesson 07 preparation (2026-09-21):
+
+- Read current rules, skill, plan, checkpoint, lesson 06, template, and all exercise
+  modules. Verified clean learn/bevy-ecs at 7a9f071, Bevy 0.19.0 in manifest/lockfile,
+  edition 2024, and Rust/Cargo 1.97.0. Reconciled historical closeout prose.
+- Extracted exact lesson 07 Rust block into /private/tmp/lesson07-7pkns_vi using
+  copied manifest/lockfile and other exercise modules, with shared target cache.
+  Offline locked example tests passed all 11; scene tests cover first-hit occlusion,
+  depth endpoints, clear columns, orientation, and windowless asset integration.
+- Consulted installed Bevy 0.19.0 image and main schedule sources. No new Bevy
+  mechanism: ordinary CPU scan inside the existing PostStartup setup system.
+- Only lesson 07 and progress documentation changed. No learner source/dependency
+  edits, actual lesson 07 review, GUI validation, or user experiment yet. No commits
+  or pushes. Isolated tests establish preparation, not lesson completion.
+
 
 Lesson 06 final closeout (2026-09-21):
 
