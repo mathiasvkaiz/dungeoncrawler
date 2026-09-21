@@ -1,6 +1,6 @@
 # 06 — Display a voxel cross-section
 
-Status: implementation reviewed; actual tests passed; visual check and experiment pending.
+Status: complete for this increment (2026-09-21).
 Prerequisite: lesson 05 palette restored to `Some([140, 95, 55, 255])` for soil.
 Target: `learn/bevy-ecs`, `examples/learning/voxel.rs`, `planet.rs`, and `scene.rs`.
 Version context: Bevy 0.19.0, Rust edition 2024, Rust/Cargo 1.97.0.
@@ -320,8 +320,9 @@ Restore `depth / 2`, save, and run again. Share both observations or request
 - [x] Lesson prepared and isolated validation recorded.
 - [x] User implemented the code; reviewed with no correctness findings.
 - [x] All 11 actual-exercise tests passed (2026-09-21).
-- [ ] Visual result verified.
-- [ ] Slice experiment discussed and center slice restored.
+- [x] User confirmed the cross-section displays correctly.
+- [x] User reported the z=1 experiment; discussed the single soil cell.
+- [x] Center slice `depth / 2` verified in final source.
 
 Decision: display a one-time cross-section through an Image asset, keeping terrain
 ownership in PlanetVoxels. PostStartup separates presentation setup from generation.
@@ -329,6 +330,13 @@ Full surface rendering, rotation, lighting, and geography remain later work.
 
 Review (2026-09-21): PlanetPlugin registration is restored; scene executable code
 matches this lesson. All 11 tests passed on the actual exercise. Center slice
-`depth / 2` is present. Trailing whitespace at voxel.rs:26 is cosmetic and left
-for user cleanup. No assistant source edits or GUI validation. User visual and
-experiment observations remain pending.
+`depth / 2` was present. At review, visual/experiment observations were pending
+and trailing whitespace at voxel.rs:26 was left for user cleanup.
+
+Final closeout (2026-09-21): user confirmed the correct cross-section and reported
+one central cell during the z=1 experiment. Clarified that [4,4,1] is distance 3
+from the sphere center, so it is soil on the outer surface, not the rock core.
+Final source uses `depth / 2`. User explicitly authorized whitespace cleanup;
+removed trailing whitespace from voxel.rs. Executable code is unchanged from the
+11-test passing review, so those results are reused. Visual evidence is the user's
+report; no assistant GUI validation. Lesson complete for this increment.

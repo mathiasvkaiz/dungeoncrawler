@@ -46,36 +46,34 @@ experiment reported and discussed; radius 3.0 and thickness 1.0 restored in sour
 User confirmed the restored expected startup output and continued square rotation
 at close. Lesson 04 is complete for this increment. No assistant GUI validation.
 
-Latest completed: [Lesson 05 — Map material IDs to colors](lessons/05-material-palette.md).
+[Lesson 05 — Map material IDs to colors](lessons/05-material-palette.md).
 Implementation reviewed; user supplied baseline and experiment logs and confirmed
 rotation. User then requested progression and confirmed the correction to `Some`.
 At 9a37e6f, original soil [140,95,55,255] is restored and all nine actual tests pass.
 No new post-correction app log or assistant GUI validation; prior user observations
 remain the visual evidence. Typo and restoration checkpoint are resolved.
 
-Active: [Lesson 06 — Display a voxel cross-section](lessons/06-voxel-slice-image.md),
-prepared and tested in isolation. Introduces a one-time XY slice Image, a sprite,
-read-only grid access, and PostStartup presentation. This is a diagnostic bridge
-toward A3; the final globe still needs surface visibility, view direction and lighting.
-User implementation reviewed on 2026-09-21 with no correctness findings. The
-PlanetPlugin implementation is restored alongside the PlanetVoxels accessor;
-registration and Startup/PostStartup ordering are correct. All 11 actual tests pass.
-One cosmetic issue remains: trailing whitespace at voxel.rs:26. Source uses the
-center slice depth / 2. Visual confirmation and experiment observations are pending.
+Latest completed: [Lesson 06 — Display a voxel cross-section](lessons/06-voxel-slice-image.md).
+User implementation reviewed with no correctness findings; all 11 actual tests
+passed. PlanetPlugin registration and PostStartup presentation are correct.
+User confirmed the cross-section displays correctly and reported one central cell
+at z=1. Explained that [4,4,1] is surface soil at distance 3, not the rock core.
+Final source uses `depth / 2`; radius 3.0, thickness 1.0, original palette retained.
+Visual evidence is user-reported; no assistant GUI validation. Lesson 06 is complete
+for this increment, with no pending exercise.
 
-Next action: user runs the app, checks the stationary rock/soil cross-section and
-transparent margins, tries z=1, then restores depth / 2 and reports observations.
-No lesson 07 prepared. Session closed at this partial checkpoint; resume the
-visual check and experiment before advancing. Assistant changed documentation only.
+Next action on Continue learning: prepare one small step from slice display toward
+surface visibility, finding the first occupied voxel along a fixed viewing axis.
+Keep image asset ownership and the grid boundary; defer arbitrary view rotation,
+lighting and geography. No lesson 07 prepared.
 
-Lesson 06 close (2026-09-21): explicit Close session authorizes committing/pushing
-six files: planet.rs, scene.rs, voxel.rs, this checkpoint, lesson 05 restoration
-notes, and lesson 06. Pre-close HEAD: 9a37e6f. Destination: origin,
-learn/bevy-ecs (https://github.com/mathiasvkaiz/the-game.git).
-Final source is unchanged since review; reuse 11 passing actual tests. No repeated
-test or GUI run. Preserve known cosmetic whitespace at voxel.rs:26; diff check
-reports it. No existing staged changes or unpushed commits at close start.
-Delivery outcome will be verified after committing; lesson completion remains pending.
+Lesson 06 initial close was delivered as 9c1cf56 to origin/learn/bevy-ecs with
+visual/experiment observations pending. User subsequently supplied those observations
+and explicitly authorized final documentation, whitespace cleanup, commit and push.
+Final closeout pre-commit HEAD: 9c1cf56. Scope: lesson 06, this checkpoint, voxel.rs
+trailing whitespace only. Destination: origin, learn/bevy-ecs
+(https://github.com/mathiasvkaiz/the-game.git). Executable code unchanged; reuse the
+11 passing tests. Final delivery outcome is verified after committing.
 
 Lesson 05 close: user requested closing after reporting the experiment.
 Authorized scope: main.rs, planet.rs, material.rs, lesson 05, and this checkpoint.
@@ -150,6 +148,17 @@ The following observations and delivery notes concern completed lesson 03:
   the pure grid and single-resource ownership stayed the same.
 
 ## Checks and evidence
+
+Lesson 06 final closeout (2026-09-21):
+
+- Clean learn/bevy-ecs at 9c1cf56 before closeout; no staged or unpushed changes.
+- Recorded user visual and z=1 experiment reports; clarified soil versus core.
+  Verified center slice in final source. No new app run or visual inference.
+- User authorized removal of trailing whitespace at voxel.rs:26. Only whitespace
+  changed in source; reused the 11 passing actual tests. Final diff check passed.
+- Scope limited to lesson 06, progress, and voxel.rs cleanup; no next lesson or
+  dependency changes. No remaining lesson 06 exercise.
+
 
 Lesson 06 user implementation review (2026-09-21):
 
